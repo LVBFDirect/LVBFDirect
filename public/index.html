@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Beschrijf je les en krijg direct een LVBF (lesvoorbereidingsformulier bewegingsonderwijs) in het vertrouwde format.">
+<title>LVBF Direct</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect x='1.5' y='1.5' width='27' height='27' rx='6' fill='%230B7A57'/%3E%3Cline x1='15' y1='4' x2='15' y2='26' stroke='%23fff' stroke-width='2'/%3E%3Ccircle cx='15' cy='15' r='5' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Cpath d='M4 10H8V20H4' fill='none' stroke='%23F2B41C' stroke-width='2'/%3E%3Cpath d='M26 10H22V20H26' fill='none' stroke='%23F2B41C' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,600..800&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F6F7F4;
+    --surface: #FFFFFF;
+    --surface-2: #EEF1EC;
+    --ink: #14201B;
+    --ink-soft: #55635C;
+    --ink-faint: #7E8A84;
+    --accent: #0B7A57;
+    --accent-deep: #07603F;
+    --accent-tint: #DDEFE6;
+    --line: #F2B41C;
+    --rule: #DCE2DD;
+    --rule-strong: #C5CEC8;
+    --on-accent: #FFFFFF;
+    --shadow: 0 1px 2px rgba(20,32,27,.06), 0 8px 24px rgba(20,32,27,.06);
+    --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --body: "Public Sans", "Segoe UI", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --bg: #0F1613;
+      --surface: #16201C;
+      --surface-2: #1C2823;
+      --ink: #E7EEEA;
+      --ink-soft: #A3B1AA;
+      --ink-faint: #7C8A83;
+      --accent: #3FC191;
+      --accent-deep: #6DD6AE;
+      --accent-tint: #1B3A2E;
+      --line: #F2B41C;
+      --rule: #26332D;
+      --rule-strong: #34443C;
+      --on-accent: #06251A;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --bg: #0F1613;
+    --surface: #16201C;
+    --surface-2: #1C2823;
+    --ink: #E7EEEA;
+    --ink-soft: #A3B1AA;
+    --ink-faint: #7C8A83;
+    --accent: #3FC191;
+    --accent-deep: #6DD6AE;
+    --accent-tint: #1B3A2E;
+    --line: #F2B41C;
+    --rule: #26332D;
+    --rule-strong: #34443C;
+    --on-accent: #06251A;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  }
+
+  *{ box-sizing: border-box; }
+  [hidden]{ display: none !important; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection{ background: var(--accent); color: var(--on-accent); }
+  a{ color: var(--accent); }
+  :focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+  .wrap{ max-width: 1080px; margin: 0 auto; padding-inline: 20px; }
+  .narrow{ max-width: 780px; }
+
+  h1, h2, h3{
+    font-family: var(--display);
+    font-stretch: 78%;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav .wrap{ display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+  .brand{ display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .brand svg{ flex: none; }
+  .brand-name{ font-family: var(--display); font-stretch: 78%; font-weight: 800; font-size: 22px; letter-spacing: -0.01em; }
+  .nav-links{ display: flex; align-items: center; gap: 22px; }
+  .nav-links a{ color: var(--ink-soft); text-decoration: none; font-size: 14.5px; font-weight: 500; }
+  .nav-links a:hover{ color: var(--ink); }
+  .price-chip{
+    font-family: var(--mono); font-size: 13px; font-weight: 500;
+    border: 1px solid var(--rule-strong); border-radius: 999px; padding: 5px 12px; color: var(--ink);
+    white-space: nowrap;
+  }
+  @media (max-width: 720px){ .nav-links a{ display: none; } }
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font-family: var(--body); font-size: 15.5px; font-weight: 600;
+    border: 1px solid transparent; border-radius: 10px; padding: 13px 22px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    cursor: pointer; text-decoration: none; transition: background .15s ease, transform .1s ease;
+    background: var(--surface); color: var(--ink);
+  }
+  .btn:active:not(:disabled){ transform: translateY(1px); }
+  .btn:disabled{ opacity: .55; cursor: not-allowed; }
+  .btn-primary{ background: var(--accent); color: var(--on-accent); }
+  .btn-primary:hover:not(:disabled){ background: var(--accent-deep); }
+  .btn-ghost{ background: transparent; border-color: var(--rule-strong); }
+  .btn-ghost:hover:not(:disabled){ background: var(--surface-2); }
+  .btn-lg{ padding: 15px 26px; font-size: 16.5px; }
+
+  /* ---------- hero ---------- */
+  .hero{ position: relative; overflow: hidden; padding-block: 64px 56px; }
+  .hero-court{ position: absolute; inset: 0; pointer-events: none; opacity: .75; }
+  .hero-court svg{ position: absolute; right: -120px; top: -40px; width: 760px; max-width: none; height: auto; }
+  .hero .wrap{ position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; }
+  .hero h1{ font-size: clamp(40px, 6vw, 68px); margin-top: 14px; }
+  .hero h1 em{ font-style: normal; color: var(--accent); }
+  .hero .lede{ margin: 20px 0 0; font-size: 18.5px; color: var(--ink-soft); max-width: 44ch; }
+  .hero-actions{ margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .checks{ list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 10px 22px; }
+  .checks li{ display: flex; align-items: center; gap: 8px; font-size: 14.5px; color: var(--ink-soft); }
+  .checks svg{ flex: none; color: var(--accent); }
+
+  .paper-stack{ position: relative; padding: 14px; }
+  .paper{
+    background: #fff; color: #111; border: 1px solid #1a1a1a;
+    box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 18px 40px rgba(20,32,27,.14);
+    font-family: Arial, "Helvetica Neue", sans-serif; font-size: 12px; line-height: 1.35;
+    transform: rotate(-1.4deg);
+  }
+  .paper-back{
+    position: absolute; inset: 14px; background: #fff; border: 1px solid #1a1a1a;
+    transform: rotate(2.2deg) translate(10px, 8px); opacity: .7;
+  }
+  .paper table{ width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .paper td, .paper th{ border: 1px solid #1a1a1a; padding: 6px 8px; vertical-align: top; text-align: left; }
+  .paper .kop td{ background: #D9D9D9; }
+  .paper th{ background: #A6A6A6; color: #fff; font-style: italic; text-align: center; }
+  .paper .side{ background: #A6A6A6; color: #fff; font-weight: 600; font-size: 9.5px; width: 22px; writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; }
+  .paper .stamp{
+    position: absolute; right: 2px; bottom: -6px;
+    font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    background: var(--line); color: #1d1600; padding: 6px 10px; border-radius: 4px; transform: rotate(3deg);
+    box-shadow: 0 4px 10px rgba(0,0,0,.15);
+  }
+
+  /* ---------- sections ---------- */
+  section{ padding-block: 72px; position: relative; overflow: hidden; }
+  section > .wrap, section > .result-wrap{ position: relative; z-index: 1; }
+  .court{ position: absolute; z-index: 0; pointer-events: none; height: auto; max-width: none; opacity: .8; }
+  .court .ln{ fill: none; stroke: var(--rule-strong); stroke-width: 3; }
+  .court .ac{ fill: none; stroke: var(--line); stroke-opacity: .6; stroke-width: 3; }
+  .court-volley{ width: 640px; left: -220px; bottom: -110px; }
+  .court-hb{ width: 240px; top: 90px; }
+  .court-hb.l{ left: -40px; }
+  .court-hb.r{ right: -40px; transform: scaleX(-1); }
+  .court-basket{ width: 520px; right: -90px; bottom: -40px; }
+  .court-foot{ width: 420px; right: -170px; top: 40px; }
+  @media (max-width: 640px){ .court-hb{ display: none; } .court-basket{ width: 380px; } }
+  .section-alt{ background: var(--surface); border-block: 1px solid var(--rule); }
+  .section-head{ margin-bottom: 36px; max-width: 60ch; }
+  .section-head h2{ font-size: clamp(30px, 4vw, 42px); margin-top: 10px; }
+  .section-head p{ margin: 12px 0 0; color: var(--ink-soft); font-size: 17px; }
+
+  .steps{ list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 2px solid var(--ink); }
+  .steps li{ padding: 22px 24px 4px 0; }
+  .steps li + li{ padding-left: 24px; border-left: 1px solid var(--rule); }
+  .steps .n{ font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+  .steps h3{ font-size: 24px; margin: 8px 0 8px; }
+  .steps p{ margin: 0; color: var(--ink-soft); font-size: 15.5px; }
+
+  /* ---------- generator ---------- */
+  .gen{ background: var(--surface); border: 1px solid var(--rule); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }
+  .gen-part{ padding: 28px; }
+  .gen-part + .gen-part{ border-top: 1px solid var(--rule); }
+  .part-title{ display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+  .part-title .n{
+    flex: none; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--ink); color: var(--bg);
+    font-family: var(--mono); font-size: 13px; font-weight: 600;
+    display: inline-flex; align-items: center; justify-content: center; transform: translateY(-2px);
+  }
+  .part-title h3{ font-size: 23px; }
+  .part-title .hint{ font-size: 14px; color: var(--ink-faint); margin-left: auto; }
+
+  textarea, input, select{
+    font-family: var(--body); font-size: 16px; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 10px;
+    padding: 12px 14px; width: 100%;
+  }
+  textarea{ resize: vertical; min-height: 110px; line-height: 1.5; }
+  textarea:focus, input:focus, select:focus{ border-color: var(--accent); outline: 2px solid var(--accent-tint); outline-offset: 0; }
+  .counter{ font-family: var(--mono); font-size: 12px; color: var(--ink-faint); text-align: right; margin-top: 6px; }
+
+  .chips-label{ font-size: 13.5px; color: var(--ink-soft); margin: 14px 0 8px; }
+  .chips{ display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip{
+    font-family: var(--body); font-size: 14px; color: var(--ink);
+    background: var(--surface-2); border: 1px solid transparent; border-radius: 999px;
+    padding: 7px 14px; cursor: pointer;
+  }
+  .chip:hover{ border-color: var(--accent); color: var(--accent); }
+
+  .row{ display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; }
+  .field{ display: flex; flex-direction: column; gap: 7px; }
+  .field > label, .field > .flabel{ font-size: 14px; font-weight: 600; color: var(--ink); }
+  .field .opt{ font-weight: 400; color: var(--ink-faint); }
+
+  .seg{ display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--rule-strong); border-radius: 10px; overflow: hidden; background: var(--bg); }
+  .seg input{ position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+  .seg label{
+    text-align: center; padding: 11px 4px; font-size: 15px; font-weight: 500; cursor: pointer; color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .seg label + input + label{ border-left: 1px solid var(--rule-strong); }
+  .seg input:checked + label{ background: var(--ink); color: var(--bg); }
+  .seg input:focus-visible + label{ outline: 2px solid var(--accent); outline-offset: -3px; }
+
+  details.extra{ margin-top: 20px; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg); }
+  details.extra summary{
+    cursor: pointer; list-style: none; padding: 14px 16px; font-weight: 600; font-size: 15px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  details.extra summary::-webkit-details-marker{ display: none; }
+  details.extra summary .sub{ font-weight: 400; color: var(--ink-faint); font-size: 14px; }
+  details.extra summary .chev{ margin-left: auto; transition: transform .2s ease; color: var(--ink-faint); }
+  details.extra[open] summary .chev{ transform: rotate(180deg); }
+  .extra-grid{ padding: 4px 16px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+  .extra-grid .full{ grid-column: 1 / -1; }
+  .extra-note{ grid-column: 1 / -1; font-size: 13px; color: var(--ink-faint); margin: 0; }
+
+  .gen-foot{ display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: var(--surface-2); }
+  .gen-status{ font-size: 14.5px; color: var(--ink-soft); }
+  .gen-status.err{ color: #B3261E; }
+
+  /* loading */
+  .loading{ padding: 28px; border-top: 1px solid var(--rule); }
+  .load-steps{ list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .load-steps li{ display: flex; align-items: center; gap: 12px; color: var(--ink-faint); font-size: 15px; }
+  .load-steps li .dot{ width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--rule-strong); flex: none; }
+  .load-steps li.active{ color: var(--ink); font-weight: 500; }
+  .load-steps li.active .dot{ border-color: var(--accent); border-top-color: transparent; animation: spin .9s linear infinite; }
+  .load-steps li.done{ color: var(--ink-soft); }
+  .load-steps li.done .dot{
+    background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.3 5 8.7 9.6 3.6' fill='none' stroke='%23fff' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat;
+    border-color: var(--accent);
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce){ .load-steps li.active .dot{ animation: none; } }
+
+  /* preview: wider than the form */
+  .result-wrap{ max-width: 1240px; margin: 28px auto 0; padding-inline: 20px; }
+  .result{ background: var(--surface); border: 1px solid var(--rule); border-radius: 18px; box-shadow: var(--shadow); padding: 24px; }
+  .result-bar{ display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .result-bar h3{ font-size: 23px; }
+  .badge{
+    font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 999px; background: var(--surface-2); color: var(--ink-soft);
+  }
+  .badge.open{ background: var(--accent-tint); color: var(--accent); }
+  .preview{ position: relative; border-radius: 10px; overflow: hidden; }
+  .desk{ background: #D5D9D6; max-height: 82vh; overflow: auto; padding: 24px; }
+  .pages{ display: flex; flex-direction: column; align-items: center; gap: 24px; }
+  .preview.locked .pages{ filter: blur(2.6px); user-select: none; -webkit-user-select: none; }
+  .lock{
+    display: none; position: absolute; left: 0; right: 0; bottom: 0; justify-content: center; padding: 60px 20px 20px;
+    background: linear-gradient(to bottom, rgba(213,217,214,0), rgba(213,217,214,.95) 45%);
+    pointer-events: none;
+  }
+  .lock > *{ pointer-events: auto; }
+  .preview.locked .lock{ display: flex; }
+  .lock-card{
+    background: var(--surface); color: var(--ink); border: 1px solid var(--rule); border-radius: 14px; box-shadow: var(--shadow);
+    padding: 20px; max-width: 420px; width: 100%; text-align: center;
+  }
+  .lock-card .price{ font-family: var(--display); font-stretch: 78%; font-weight: 800; font-size: 36px; line-height: 1; }
+  .lock-card .price-sub{ font-size: 14px; color: var(--ink-soft); margin: 6px 0 14px; }
+  .lock-card .btn{ width: 100%; }
+  .lock-card .small{ font-size: 13px; color: var(--ink-faint); margin: 10px 0 0; }
+  .save-note{ margin: 12px 0 0; font-size: 14px; color: var(--ink-soft); }
+  .test-note{
+    display: none; margin-top: 14px; text-align: left; font-size: 14px; color: var(--ink-soft);
+    background: var(--surface-2); border-radius: 10px; padding: 12px 14px;
+  }
+  .test-note.show{ display: block; }
+  .test-note .btn{ margin-top: 10px; }
+  .after-actions{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; align-items: center; }
+
+  /* ---------- LVBF facsimile: A4 pages, measurements from the original template ---------- */
+  .page{
+    background: #FFFFFF; color: #000000; flex: none;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; font-size: 14.67px; line-height: 1.15;
+    box-shadow: 0 1px 3px rgba(0,0,0,.18), 0 8px 24px rgba(0,0,0,.12);
+  }
+  .page.portrait{ width: 794px; min-height: 1123px; padding: 76px 19px 38px; }
+  .page.landscape{ width: 1123px; min-height: 794px; padding: 38px 26px; }
+  .page table{ width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .page td, .page th{ padding: 1px 7px; vertical-align: top; text-align: left; }
+  .page p{ margin: 0; }
+  .page ul{ margin: 0; padding-left: 22px; }
+
+  .t-kop td{ background: #D9D9D9; border: 1px solid #000; }
+  .t-kop .k1{ height: 35px; vertical-align: middle; font-weight: 700; }
+  .t-kop .k1 span{ display: inline-block; margin-right: 56px; }
+  .t-kop .k2{ height: 84px; padding-block: 4px; }
+  .t-kop .tab{ display: inline-block; width: 60px; }
+
+  .t1 td, .t1 th{ border: 1px solid #000; }
+  .t1{ border-top: none; }
+  .t1 th{ background: #A6A6A6; color: #FFFFFF; font-weight: 700; font-style: italic; font-size: 18.67px; text-align: center; height: 23px; padding: 0 7px; vertical-align: middle; }
+  .t1 td.side{ background: #A6A6A6; color: #FFFFFF; text-align: center; vertical-align: middle; padding: 4px 0; font-size: 13.33px; }
+  .t1 td.side.ped{ font-size: 12px; }
+  .t1 td.side div{ writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; margin: 0 auto; }
+  .t1 tr.r-bv td{ height: 240px; }
+  .t1 tr.r-ki td{ height: 202px; }
+  .t1 tr.r-rv td{ height: 143px; }
+  .t1 tr.r-pk td{ height: 131px; }
+  .t1 td.data{ padding-block: 3px; }
+  .t1 td.data .kop + ul{ margin-bottom: 6px; }
+  .t1 td.data .ped-block{ margin-bottom: 8px; }
+
+  .t2 th{
+    background: #A6A6A6; color: #FFFFFF; font-weight: 700; text-align: center; vertical-align: middle;
+    height: 29px; font-size: 21.33px; padding: 0 7px;
+    border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: none;
+  }
+  .t2 th.tijd{ font-size: 10.67px; padding: 0 1px; }
+  .t2 td{ border-left: 1px solid #000; border-right: 1px solid #000; border-top: none; border-bottom: none; padding-block: 2px; }
+  .t2 tr.empty td{ height: 22px; }
+
+  /* ---------- contents ---------- */
+  .contents{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 32px; }
+  .contents div{ border-top: 1px solid var(--rule-strong); padding-top: 14px; }
+  .contents h3{ font-size: 20px; }
+  .contents p{ margin: 6px 0 0; color: var(--ink-soft); font-size: 15px; }
+
+  /* ---------- faq ---------- */
+  .faq details{ border-bottom: 1px solid var(--rule); }
+  .faq details:first-child{ border-top: 1px solid var(--rule); }
+  .faq summary{
+    list-style: none; cursor: pointer; padding: 18px 0; font-weight: 600; font-size: 17px;
+    display: flex; justify-content: space-between; gap: 16px; align-items: center;
+  }
+  .faq summary::-webkit-details-marker{ display: none; }
+  .faq summary .plus{ flex: none; font-family: var(--mono); color: var(--accent); font-size: 20px; line-height: 1; transition: transform .2s ease; }
+  .faq details[open] summary .plus{ transform: rotate(45deg); }
+  .faq details p{ margin: 0 0 18px; color: var(--ink-soft); max-width: 64ch; }
+
+  /* ---------- footer ---------- */
+  footer{ border-top: 1px solid var(--rule); padding-block: 32px 48px; }
+  footer .wrap{ display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  footer p{ margin: 0; font-size: 14px; color: var(--ink-soft); }
+  footer .mono{ font-family: var(--mono); font-size: 13px; }
+
+  @media (max-width: 860px){
+    .hero .wrap{ grid-template-columns: 1fr; gap: 36px; }
+    .paper-stack{ max-width: 520px; }
+    .contents{ grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px){
+    .hero{ padding-block: 40px 40px; }
+    section{ padding-block: 52px; }
+    .steps{ grid-template-columns: 1fr; }
+    .steps li, .steps li + li{ padding: 18px 0; border-left: none; }
+    .steps li + li{ border-top: 1px solid var(--rule); }
+    .row, .extra-grid{ grid-template-columns: 1fr; }
+    .gen-part, .result, .loading{ padding: 20px; }
+    .contents{ grid-template-columns: 1fr; }
+    .part-title .hint{ display: none; }
+    .seg label{ font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+
+<nav class="nav" aria-label="Hoofdmenu">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="LVBF Direct">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="27" height="27" rx="6" fill="var(--accent)"/>
+        <line x1="15" y1="4" x2="15" y2="26" stroke="var(--on-accent)" stroke-width="2"/>
+        <circle cx="15" cy="15" r="5" fill="none" stroke="var(--on-accent)" stroke-width="2"/>
+        <path d="M4 10 H8 V20 H4" fill="none" stroke="var(--line)" stroke-width="2"/>
+        <path d="M26 10 H22 V20 H26" fill="none" stroke="var(--line)" stroke-width="2"/>
+      </svg>
+      <span class="brand-name">LVBF Direct</span>
+    </a>
+    <div class="nav-links">
+      <a href="#hoe">Hoe het werkt</a>
+      <a href="#inhoud">Wat je krijgt</a>
+      <a href="#vragen">Vragen</a>
+      <span class="price-chip">€1,99 per LVBF</span>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-court" aria-hidden="true">
+    <svg viewBox="0 0 760 520" fill="none">
+      <rect x="40" y="40" width="680" height="440" stroke="var(--rule-strong)" stroke-width="3"/>
+      <line x1="380" y1="40" x2="380" y2="480" stroke="var(--rule-strong)" stroke-width="3"/>
+      <circle cx="380" cy="260" r="70" stroke="var(--rule-strong)" stroke-width="3"/>
+      <path d="M720 150 H600 V370 H720" stroke="var(--line)" stroke-opacity=".55" stroke-width="3"/>
+      <path d="M40 150 H160 V370 H40" stroke="var(--rule-strong)" stroke-width="3"/>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Voor stagiairs bewegingsonderwijs</span>
+      <h1>Jouw les. Direct als <em>LVBF</em> op papier.</h1>
+      <p class="lede">Beschrijf in één zin wat je gaat geven. Je krijgt een uitgewerkte lesvoorbereiding in het vertrouwde LVBF-format: beginsituatie, doelen, warming-up en lesopbouw.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="#maken">Maak je LVBF</a>
+        <a class="btn btn-ghost btn-lg" href="#hoe">Hoe het werkt</a>
+      </div>
+      <ul class="checks">
+        <li><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5 7 13 14.5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Officiële tabelindeling</li>
+        <li><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5 7 13 14.5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Klaar in ongeveer 30 seconden</li>
+        <li><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5 7 13 14.5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Eerst bekijken, dan betalen</li>
+      </ul>
+    </div>
+
+    <div class="paper-stack" aria-hidden="true">
+      <div class="paper-back"></div>
+      <div class="paper" style="position:relative">
+        <table class="kop"><tr><td><b>Student:</b> S. de Vries &nbsp;&nbsp; <b>Datum:</b> 06-10-2026 &nbsp;&nbsp; <b>Lesduur:</b> 45 min.</td></tr>
+          <tr><td><b>Klas / groep:</b> Groep 7/8 &nbsp;&nbsp; <b>Kerndoel:</b> 57 &amp; 58</td></tr></table>
+        <table>
+          <tr><th style="width:22px;background:#A6A6A6"></th><th>Beginsituatie</th><th>Doelen</th></tr>
+          <tr><td class="side">Bewegen</td><td>Leerlingen kunnen gericht gooien en vangen op korte afstand.</td><td>Leerlingen gooien de bal na een schijnbeweging gericht naar een vrije medespeler.</td></tr>
+          <tr><td class="side">Inzicht</td><td>Kennen de basisregels van trefbal.</td><td>Herkennen wanneer ze moeten wegduiken of juist vangen.</td></tr>
+          <tr><td class="side">Regelen</td><td>Kunnen zelf teams verdelen met hulp.</td><td>Houden zelf de score bij en lossen kleine conflicten op.</td></tr>
+        </table>
+        <span class="stamp">Groep 7/8 · Trefbal</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="hoe" class="section-alt">
+  <svg class="court court-volley" viewBox="0 0 640 340" aria-hidden="true">
+    <rect class="ln" x="20" y="20" width="600" height="300"/>
+    <line class="ln" x1="320" y1="10" x2="320" y2="330"/>
+    <line class="ac" x1="220" y1="20" x2="220" y2="320"/>
+    <line class="ac" x1="420" y1="20" x2="420" y2="320"/>
+  </svg>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Hoe het werkt</span>
+      <h2>Drie stappen van idee naar lesvoorbereiding</h2>
+    </div>
+    <ol class="steps">
+      <li><span class="n">Stap 1</span><h3>Beschrijf je les</h3><p>Wat ga je geven, aan welke groep en hoe lang. Een paar woorden is genoeg.</p></li>
+      <li><span class="n">Stap 2</span><h3>Bekijk het voorbeeld</h3><p>Je LVBF verschijnt direct in het bekende format. Je ziet de opbouw en kunt beoordelen of het past.</p></li>
+      <li><span class="n">Stap 3</span><h3>Ontgrendel en gebruik</h3><p>Betaal €1,99 via iDEAL en de volledige tekst komt vrij. Kopieer hem naar je eigen formulier en pas aan waar nodig.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="maken">
+  <svg class="court court-hb l" viewBox="0 0 260 520" aria-hidden="true">
+    <line class="ln" x1="6" y1="0" x2="6" y2="520"/>
+    <path class="ln" d="M6 110 A120 120 0 0 1 126 230 L126 290 A120 120 0 0 1 6 410"/>
+    <path class="ln" stroke-dasharray="12 10" d="M6 50 A180 180 0 0 1 186 230 L186 290 A180 180 0 0 1 6 470"/>
+    <line class="ac" x1="6" y1="230" x2="6" y2="290" stroke-width="7"/>
+    <line class="ln" x1="80" y1="255" x2="80" y2="265"/>
+  </svg>
+  <svg class="court court-hb r" viewBox="0 0 260 520" aria-hidden="true">
+    <line class="ln" x1="6" y1="0" x2="6" y2="520"/>
+    <path class="ln" d="M6 110 A120 120 0 0 1 126 230 L126 290 A120 120 0 0 1 6 410"/>
+    <path class="ln" stroke-dasharray="12 10" d="M6 50 A180 180 0 0 1 186 230 L186 290 A180 180 0 0 1 6 470"/>
+    <line class="ac" x1="6" y1="230" x2="6" y2="290" stroke-width="7"/>
+    <line class="ln" x1="80" y1="255" x2="80" y2="265"/>
+  </svg>
+  <div class="wrap narrow">
+    <div class="section-head">
+      <span class="eyebrow">Maak je LVBF</span>
+      <h2>Vertel wat je gaat geven</h2>
+      <p>Alleen het eerste veld is verplicht. De rest vul je in als je het wil.</p>
+    </div>
+
+    <div class="gen">
+      <div class="gen-part">
+        <div class="part-title"><span class="n">1</span><h3>Je les</h3><span class="hint">verplicht</span></div>
+        <label for="beschrijving" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Beschrijf je les</label>
+        <textarea id="beschrijving" maxlength="600" placeholder="Bijvoorbeeld: trefbal met een tikspel als warming-up, met een makkelijkere variant voor leerlingen die moeite hebben met vangen"></textarea>
+        <div class="counter"><span id="count">0</span> / 600</div>
+        <p class="chips-label">Of begin met een voorbeeld:</p>
+        <div class="chips" id="chips">
+          <button type="button" class="chip">Trefbal met een tikspel als warming-up</button>
+          <button type="button" class="chip">Turnen: zwaaien aan de ringen en springen van de kast</button>
+          <button type="button" class="chip">Basketbal: lay-up in drie niveaus</button>
+          <button type="button" class="chip">Unihockey: passen en scoren in kleine partijvormen</button>
+          <button type="button" class="chip">Atletiek: sprintstart en estafette-wissel</button>
+        </div>
+      </div>
+
+      <div class="gen-part">
+        <div class="part-title"><span class="n">2</span><h3>Groep en lesduur</h3></div>
+        <div class="row">
+          <div class="field">
+            <label for="groep">Klas of groep</label>
+            <select id="groep">
+              <optgroup label="Basisonderwijs">
+                <option>Groep 1/2</option>
+                <option>Groep 3/4</option>
+                <option>Groep 5/6</option>
+                <option selected>Groep 7/8</option>
+              </optgroup>
+              <optgroup label="Voortgezet onderwijs">
+                <option>Brugklas</option>
+                <option>Klas 2</option>
+                <option>Klas 3</option>
+                <option>Klas 4</option>
+                <option>Bovenbouw (klas 5/6)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="field">
+            <span class="flabel" id="duur-label">Lesduur</span>
+            <div class="seg" role="radiogroup" aria-labelledby="duur-label">
+              <input type="radio" name="duur" id="d30" value="30 minuten"><label for="d30">30 min</label>
+              <input type="radio" name="duur" id="d45" value="45 minuten" checked><label for="d45">45 min</label>
+              <input type="radio" name="duur" id="d60" value="60 minuten"><label for="d60">60 min</label>
+              <input type="radio" name="duur" id="d90" value="90 minuten"><label for="d90">90 min</label>
+            </div>
+          </div>
+        </div>
+
+        <details class="extra" id="extra">
+          <summary>Kopblok invullen <span class="sub">naam, datum, school, begeleider</span>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </summary>
+          <div class="extra-grid">
+            <div class="field"><label for="student">Jouw naam</label><input id="student" type="text" autocomplete="name"></div>
+            <div class="field"><label for="datum">Datum</label><input id="datum" type="date"></div>
+            <div class="field"><label for="school">School</label><input id="school" type="text" placeholder="je stageschool"></div>
+            <div class="field"><label for="begeleider">Begeleider</label><input id="begeleider" type="text"></div>
+            <p class="extra-note">Naam, school en begeleider worden alleen in deze browser onthouden, zodat je ze de volgende keer niet opnieuw hoeft te typen.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="gen-part gen-foot">
+        <button class="btn btn-primary btn-lg" id="gen-btn" type="button">Maak mijn voorbeeld</button>
+        <span class="gen-status" id="gen-status" role="status"></span>
+      </div>
+
+      <div class="loading" id="loading" hidden>
+        <ul class="load-steps" id="load-steps">
+          <li><span class="dot"></span>Beginsituatie en doelen opstellen</li>
+          <li><span class="dot"></span>Warming-up bedenken</li>
+          <li><span class="dot"></span>Lesopbouw en uitbouw uitwerken</li>
+          <li><span class="dot"></span>In het LVBF-format zetten</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-wrap">
+      <div class="result" id="result" hidden>
+        <div class="result-bar">
+          <h3 id="result-title">Je LVBF</h3>
+          <span class="badge" id="badge">Voorbeeld</span>
+        </div>
+        <div class="preview locked" id="preview">
+          <div class="desk" id="desk" oncontextmenu="return false" onselectstart="return !document.getElementById('preview').classList.contains('locked')">
+            <div class="pages" id="pages"></div>
+          </div>
+          <div class="lock">
+            <div class="lock-card">
+              <div class="price">€1,99</div>
+              <p class="price-sub">Eenmalig. Volledige, leesbare tekst om te kopiëren.</p>
+              <button class="btn btn-primary btn-lg" id="buy-btn" type="button">Betaal met iDEAL</button>
+              <p class="small">Past het niet? Pas je beschrijving aan en maak gratis een nieuw voorbeeld.</p>
+              <p class="small" id="pay-status" role="status" aria-live="polite"></p>
+            </div>
+          </div>
+        </div>
+        <div class="after-actions">
+          <button class="btn btn-ghost" id="regen-btn" type="button">Nieuw voorbeeld maken</button>
+          <button class="btn btn-primary" id="copy-btn" type="button" hidden>Kopieer tekst</button>
+          <span class="gen-status" id="copy-status" role="status"></span>
+        </div>
+        <p class="save-note" id="save-note" hidden>Bewaar de link van deze pagina: daarmee open je je LVBF later opnieuw.</p>
+      </div>
+  </div>
+</section>
+
+<section id="inhoud" class="section-alt">
+  <svg class="court court-basket" viewBox="0 0 520 420" aria-hidden="true">
+    <line class="ln" x1="0" y1="400" x2="520" y2="400"/>
+    <rect class="ln" x="190" y="210" width="140" height="190"/>
+    <circle class="ln" cx="260" cy="210" r="70"/>
+    <path class="ln" d="M40 400 L40 330 A230 230 0 0 1 480 330 L480 400"/>
+    <circle class="ac" cx="260" cy="368" r="10"/>
+    <line class="ac" x1="235" y1="385" x2="285" y2="385"/>
+  </svg>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Wat je krijgt</span>
+      <h2>Alle onderdelen die je begeleider verwacht</h2>
+    </div>
+    <div class="contents">
+      <div><h3>Kopblok</h3><p>Naam, datum, lesduur, school, begeleider en groep, bovenaan zoals op het formulier.</p></div>
+      <div><h3>Beginsituatie en doelen</h3><p>Uitgewerkt voor bewegingsvaardigheden, kennis en inzicht, en regelvaardigheden.</p></div>
+      <div><h3>Pedagogisch klimaat</h3><p>Leerling tot leerling, docent en context, passend bij jouw activiteit.</p></div>
+      <div><h3>Warming-up</h3><p>Een concreet tikspel met regels, tikkers en bevrijden, afgestemd op de groep.</p></div>
+      <div><h3>Lesopbouw</h3><p>Per activiteit een eigen rij met beschrijving, een uitbouw naar een moeilijkere variant en aandachtspunten.</p></div>
+      <div><h3>Aandachtspunten</h3><p>Korte didactische en veiligheidspunten per fase van de les.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="vragen">
+  <svg class="court court-foot" viewBox="0 0 400 400" aria-hidden="true">
+    <line class="ln" x1="200" y1="0" x2="200" y2="400"/>
+    <circle class="ln" cx="200" cy="200" r="100"/>
+    <circle cx="200" cy="200" r="5" fill="var(--line)" fill-opacity=".7"/>
+  </svg>
+  <div class="wrap narrow">
+    <div class="section-head">
+      <span class="eyebrow">Veelgestelde vragen</span>
+      <h2>Goed om te weten</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Mag ik dit zo inleveren?<span class="plus">+</span></summary>
+        <p>Gebruik de LVBF als stevige basis en maak hem daarna echt van jou. Jij kent je groep en je begeleider het best. Check de doelen, pas tijden aan en voeg je eigen arrangementtekeningen toe.</p></details>
+      <details><summary>Wat als het voorbeeld niet goed past?<span class="plus">+</span></summary>
+        <p>Je betaalt pas als je tevreden bent. Maak gerust een nieuw voorbeeld met een specifiekere beschrijving, dat is gratis.</p></details>
+      <details><summary>Voor welke groepen werkt het?<span class="plus">+</span></summary>
+        <p>Voor het basisonderwijs (groep 1 tot en met 8) en het voortgezet onderwijs, van brugklas tot bovenbouw.</p></details>
+      <details><summary>Hoe betaal ik?<span class="plus">+</span></summary>
+        <p>Via iDEAL, met je eigen bank. Je betaalt €1,99 per LVBF, zonder abonnement.</p></details>
+      <details><summary>Wat gebeurt er met mijn gegevens?<span class="plus">+</span></summary>
+        <p>We bewaren je lesgegevens en de gemaakte LVBF alleen om hem aan jou te kunnen leveren. We delen ze met niemand anders.</p></details>
+      <details><summary>Staan de arrangementtekeningen erin?<span class="plus">+</span></summary>
+        <p>Nog niet. De kolom voor arrangementen en organisatie laat ruimte voor je eigen tekening van de zaalopstelling.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><b>LVBF Direct</b> · gemaakt door een genie</p>
+    <p class="mono">Contact: info@lvbfdirect.nl</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const genBtn = $('gen-btn'), genStatus = $('gen-status');
+  const loading = $('loading'), loadSteps = $('load-steps').children;
+  const result = $('result'), preview = $('preview'), desk = $('desk'), pages = $('pages');
+  const badge = $('badge'), buyBtn = $('buy-btn'), payStatus = $('pay-status');
+  const regenBtn = $('regen-btn'), copyBtn = $('copy-btn'), copyStatus = $('copy-status'), saveNote = $('save-note');
+  const beschrijving = $('beschrijving'), count = $('count');
+
+  // ---- conveniences ----
+  const today = new Date();
+  $('datum').value = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+
+  const REMEMBER = ['student', 'school', 'begeleider'];
+  try {
+    const saved = JSON.parse(localStorage.getItem('lvbf-kop') || '{}');
+    let any = false;
+    REMEMBER.forEach(k => { if (saved[k]) { $(k).value = saved[k]; any = true; } });
+    if (any) $('extra').open = true;
+  } catch (e) {}
+  function remember(){
+    try {
+      const o = {}; REMEMBER.forEach(k => o[k] = $(k).value.trim());
+      localStorage.setItem('lvbf-kop', JSON.stringify(o));
+    } catch (e) {}
+  }
+  REMEMBER.forEach(k => $(k).addEventListener('change', remember));
+
+  const updateCount = () => { count.textContent = beschrijving.value.length; };
+  beschrijving.addEventListener('input', updateCount);
+  document.querySelectorAll('#chips .chip').forEach(c => c.addEventListener('click', () => {
+    beschrijving.value = c.textContent; updateCount(); beschrijving.focus();
+  }));
+
+  function setStatus(msg, isErr){ genStatus.textContent = msg; genStatus.classList.toggle('err', !!isErr); }
+
+  // ---- helpers ----
+  function esc(s){
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function escNl(s){ return esc(s).replace(/\n+/g, '<br>'); }
+  function fmtDate(v){
+    if (!v) return '';
+    const p = v.split('-');
+    return p.length === 3 ? (p[2] + '-' + p[1] + '-' + p[0]) : v;
+  }
+  function arr(x){ return Array.isArray(x) ? x : (x ? [x] : []); }
+  function bullets(list){
+    const items = arr(list);
+    return items.length ? '<ul>' + items.map(i => '<li>' + escNl(i) + '</li>').join('') + '</ul>' : '';
+  }
+  function groups(list){
+    return arr(list).map(g => {
+      if (typeof g === 'string') return '<ul><li>' + escNl(g) + '</li></ul>';
+      return '<p class="kop"><b>' + esc(g.kop || '') + ':</b></p>' + bullets(g.punten);
+    }).join('');
+  }
+  function durMin(d){ const m = String(d).match(/\d+/); return m ? m[0] + ' min.' : d; }
+  function actName(a){ return String(a.naam || '').replace(/^Activiteit\s*\d+\s*:\s*/i, ''); }
+
+  const PED = '<div class="ped-block"><p><b>Leerling → Leerling</b></p><p>Leerlingen van hetzelfde team moedigen en motiveren elkaar om beter te presteren en doen stoer voor elkaar. Leerlingen kunnen een wedstrijd tegen elkaar spelen zonder dat er conflicten ontstaan.</p></div>' +
+    '<div class="ped-block"><p><b>Leerling → Docent</b></p><p>Leerkrachten moedigen aan en geven complimenten. Leerlingen kunnen bij een vraag of conflict bij de docent komen. De leerlingen gebruiken de tips van de docent.</p></div>' +
+    '<div class="ped-block"><p><b>Leerling → Context</b></p><p>Kinderen voelen zich op hun gemak en durven nieuwe bewegingen te proberen. Met voorzichtigheid met het arrangement omgaan (en ruimen dit ook weer netjes op).</p></div>';
+
+  const T1_COLS = '<colgroup><col style="width:4.05%"><col style="width:50.39%"><col style="width:45.56%"></colgroup>';
+  const T2_COLS = '<colgroup><col style="width:3.12%"><col style="width:31.17%"><col style="width:32.76%"><col style="width:32.95%"></colgroup>';
+  const T2_HEAD = '<tr><th class="tijd">Tijd</th><th>Bewegingsactiviteiten</th><th>Arrangementen / organisatie</th><th>Aandachtspunten</th></tr>';
+
+  function renderDoc(meta, data){
+    const t1 = data.tabel1 || {};
+    const bv = t1.bewegingsvaardigheden || {}, ki = t1.kennis_en_inzicht || {}, rv = t1.regelvaardigheden || {};
+    const thema = esc(data.les_titel || meta.beschrijving);
+    const w = data.warming_up || {};
+    const acts = arr(data.activiteiten);
+
+    let p1 = '<div class="page portrait">';
+    p1 += '<table class="t-kop">' + T1_COLS + '<tbody>';
+    p1 += '<tr><td colspan="3" class="k1"><span>Student: ' + esc(meta.student) + '</span><span>Datum: ' + esc(fmtDate(meta.datum)) + '</span><span>Lesduur: ' + esc(durMin(meta.duur)) + '</span></td></tr>';
+    p1 += '<tr><td colspan="3" class="k2">' +
+      '<p><b>School:</b> ' + esc(meta.school) + '<span class="tab"></span><b>Begeleider:</b> ' + esc(meta.begeleider) + '</p>' +
+      '<p><b>Klas / groep:</b> ' + esc(meta.groep) + '<span class="tab"></span><b>Aantal leerlingen :</b> &nbsp;&nbsp;&nbsp;&nbsp; jongens &nbsp;&nbsp;&nbsp;&nbsp; meisjes</p>' +
+      '<p><b>Opdracht:</b> ' + esc(data.opdracht) + '</p><p>&nbsp;</p>' +
+      '<p><b>Bronnen:</b> ' + esc(data.bronnen) + '</p></td></tr>';
+    p1 += '</tbody></table>';
+    p1 += '<table class="t1">' + T1_COLS + '<tbody>';
+    p1 += '<tr><th></th><th>Beginsituatie</th><th>Doelen</th></tr>';
+    p1 += '<tr class="r-bv"><td class="side"><div>Bewegingsvaardigheden</div></td><td class="data">' + groups(bv.beginsituatie) + '</td><td class="data">' + groups(bv.doelen) + '</td></tr>';
+    p1 += '<tr class="r-ki"><td class="side"><div>Kennis&nbsp;&nbsp;en inzicht</div></td><td class="data">' + groups(ki.beginsituatie) + '</td><td class="data">' + groups(ki.doelen) + '</td></tr>';
+    p1 += '<tr class="r-rv"><td class="side"><div>Regelvaardigheden</div></td><td class="data">' + groups(rv.beginsituatie) + '</td><td class="data">' + groups(rv.doelen) + '</td></tr>';
+    p1 += '<tr class="r-pk"><td class="side ped"><div>Pedagogisch klimaat</div></td><td class="data"><p><b>' + thema + ':</b></p>' + PED + '</td><td class="data"><p><b>' + thema + ':</b></p>' + PED + '</td></tr>';
+    p1 += '</tbody></table></div>';
+
+    let p2 = '<div class="page landscape"><table class="t2">' + T2_COLS + '<tbody>' + T2_HEAD;
+    const wLabel = '<p><b>Warming up: ' + esc(w.naam) + '</b></p>';
+    p2 += '<tr><td></td><td>' + wLabel + '<p>' + escNl(w.beschrijving) + '</p></td><td>' + wLabel + '</td><td>' + bullets(w.aandachtspunten) + '</td></tr>';
+    acts.forEach((a, i) => {
+      const label = '<p><b>Activiteit ' + (i + 1) + ': ' + esc(actName(a)) + '</b></p>';
+      const gap = '<p>&nbsp;</p>';
+      p2 += '<tr><td></td><td>' + gap + label + '<p>' + escNl(a.beschrijving) + '</p>' +
+        (a.uitbouw ? '<ul><li><i>Uitbouw: ' + escNl(a.uitbouw) + '</i></li></ul>' : '') +
+        '</td><td>' + gap + label + '</td><td>' + gap + bullets(a.aandachtspunten) + '</td></tr>';
+    });
+    p2 += '</tbody></table></div>';
+
+    const p3 = '<div class="page landscape"><table class="t2">' + T2_COLS + '<tbody>' + T2_HEAD +
+      '<tr class="empty"><td></td><td></td><td></td><td></td></tr></tbody></table></div>';
+
+    return p1 + p2 + p3;
+  }
+
+  function docText(meta, data){
+    const t1 = data.tabel1 || {};
+    const L = [];
+    const g = (list) => arr(list).forEach(x => {
+      if (typeof x === 'string') { L.push('- ' + x); return; }
+      L.push(x.kop + ':'); arr(x.punten).forEach(p => L.push('- ' + p));
+    });
+    L.push('Student: ' + meta.student + '\tDatum: ' + fmtDate(meta.datum) + '\tLesduur: ' + durMin(meta.duur));
+    L.push('School: ' + meta.school + '\tBegeleider: ' + meta.begeleider);
+    L.push('Klas / groep: ' + meta.groep);
+    L.push('Opdracht: ' + (data.opdracht || ''), '', 'Bronnen: ' + (data.bronnen || ''), '');
+    [['BEWEGINGSVAARDIGHEDEN', t1.bewegingsvaardigheden], ['KENNIS EN INZICHT', t1.kennis_en_inzicht], ['REGELVAARDIGHEDEN', t1.regelvaardigheden]].forEach(([n, o]) => {
+      o = o || {};
+      L.push(n, 'Beginsituatie:'); g(o.beginsituatie);
+      L.push('Doelen:'); g(o.doelen); L.push('');
+    });
+    const w = data.warming_up || {};
+    L.push('Warming up: ' + (w.naam || ''), w.beschrijving || '', 'Aandachtspunten:');
+    arr(w.aandachtspunten).forEach(p => L.push('- ' + p));
+    L.push('');
+    arr(data.activiteiten).forEach((a, i) => {
+      L.push('Activiteit ' + (i + 1) + ': ' + actName(a), a.beschrijving || '');
+      if (a.uitbouw) L.push('Uitbouw: ' + a.uitbouw);
+      L.push('Aandachtspunten:');
+      arr(a.aandachtspunten).forEach(p => L.push('- ' + p));
+      L.push('');
+    });
+    return L.join('\n');
+  }
+
+  function fitPages(){
+    const avail = desk.clientWidth - 48;
+    pages.style.zoom = Math.min(1, avail / 1123);
+  }
+  window.addEventListener('resize', () => { if (!result.hidden) fitPages(); });
+
+  // ---- state ----
+  let current = null; // { id, meta, data?, preview? }
+
+  function showResult(res, unlocked){
+    current = res;
+    pages.innerHTML = renderDoc(res.meta, unlocked ? res.data : res.preview);
+    const titel = (unlocked ? res.data : res.preview).les_titel;
+    $('result-title').textContent = titel || 'Je LVBF';
+    preview.classList.toggle('locked', !unlocked);
+    badge.textContent = unlocked ? 'Betaald' : 'Voorbeeld';
+    badge.classList.toggle('open', unlocked);
+    copyBtn.hidden = !unlocked; copyStatus.textContent = '';
+    saveNote.hidden = !unlocked;
+    result.hidden = false;
+    fitPages();
+    desk.scrollTop = 0;
+  }
+
+  // ---- generate ----
+  let stepTimer = null;
+  function startSteps(){
+    let i = 0;
+    [...loadSteps].forEach(li => li.className = '');
+    loadSteps[0].className = 'active';
+    stepTimer = setInterval(() => {
+      if (i < loadSteps.length - 1) { loadSteps[i].className = 'done'; i++; loadSteps[i].className = 'active'; }
+    }, 7000);
+  }
+  function finishSteps(){ clearInterval(stepTimer); [...loadSteps].forEach(li => li.className = 'done'); }
+  const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
+  async function generate(){
+    const meta = {
+      student: $('student').value.trim(),
+      datum: $('datum').value,
+      groep: $('groep').value,
+      duur: (document.querySelector('input[name="duur"]:checked') || {}).value || '45 minuten',
+      school: $('school').value.trim(),
+      begeleider: $('begeleider').value.trim(),
+      beschrijving: beschrijving.value.trim()
+    };
+    if (!meta.beschrijving) {
+      setStatus('Beschrijf eerst kort je les, of kies een voorbeeld.', true);
+      beschrijving.focus();
+      return;
+    }
+    remember();
+    genBtn.disabled = true; regenBtn.disabled = true;
+    result.hidden = true; loading.hidden = false;
+    setStatus('Dit duurt ongeveer een halve minuut.');
+    startSteps();
+    loading.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    try {
+      const r = await fetch('/api/generate', {
+        method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(meta)
+      });
+      const text = await r.text();
+      let res;
+      try { res = JSON.parse(text.trim()); } catch (e) { res = { error: 'Het maken is niet gelukt. Probeer het nog een keer.' }; }
+      if (!r.ok || res.error) { setStatus(res.error || 'Het maken is niet gelukt. Probeer het nog een keer.', true); return; }
+      finishSteps();
+      await wait(600);
+      payStatus.textContent = '';
+      showResult(res, false);
+      history.replaceState(null, '', '?id=' + res.id + '#maken');
+      setStatus('');
+      result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (err) {
+      setStatus('Geen verbinding. Controleer je internet en probeer het opnieuw.', true);
+    } finally {
+      clearInterval(stepTimer);
+      loading.hidden = true;
+      genBtn.disabled = false; regenBtn.disabled = false;
+    }
+  }
+
+  genBtn.addEventListener('click', generate);
+  regenBtn.addEventListener('click', () => { $('maken').scrollIntoView({ behavior: 'smooth' }); beschrijving.focus({ preventScroll: true }); });
+
+  // ---- pay ----
+  buyBtn.addEventListener('click', async () => {
+    if (!current) return;
+    buyBtn.disabled = true;
+    payStatus.textContent = 'Je gaat naar iDEAL…';
+    try {
+      const r = await fetch('/api/pay', {
+        method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: current.id })
+      });
+      const res = await r.json();
+      if (res.paid) { await checkResult(current.id); return; }
+      if (res.checkoutUrl) { location.href = res.checkoutUrl; return; }
+      payStatus.textContent = res.error || 'Betalen starten is niet gelukt. Probeer het zo nog eens.';
+    } catch (e) {
+      payStatus.textContent = 'Geen verbinding. Probeer het opnieuw.';
+    }
+    buyBtn.disabled = false;
+  });
+
+  // ---- back from Mollie, or a saved link ----
+  async function checkResult(id, tries){
+    tries = tries || 0;
+    try {
+      const r = await fetch('/api/result?id=' + encodeURIComponent(id));
+      const res = await r.json();
+      if (res.error) { payStatus.textContent = ''; setStatus(res.error, true); result.hidden = true; return; }
+      if (res.paid) { showResult(res, true); return; }
+      showResult(res, false);
+      if ((res.status === 'open' || res.status === 'pending') && tries < 10) {
+        payStatus.textContent = 'Betaling wordt gecontroleerd…';
+        setTimeout(() => checkResult(id, tries + 1), 2000);
+      } else if (res.status && res.status !== 'open' && res.status !== 'pending') {
+        payStatus.textContent = 'De betaling is niet gelukt of geannuleerd. Je kunt het opnieuw proberen.';
+        buyBtn.disabled = false;
+      } else {
+        payStatus.textContent = '';
+        buyBtn.disabled = false;
+      }
+    } catch (e) {
+      payStatus.textContent = 'Geen verbinding. Vernieuw de pagina om het opnieuw te proberen.';
+    }
+  }
+
+  const startId = new URLSearchParams(location.search).get('id');
+  if (startId) {
+    result.hidden = false;
+    $('result-title').textContent = 'Je LVBF wordt opgehaald…';
+    result.scrollIntoView({ block: 'start' });
+    checkResult(startId);
+  }
+
+  // ---- copy ----
+  copyBtn.addEventListener('click', () => {
+    if (!current || !current.data) return;
+    const text = docText(current.meta, current.data);
+    const fallback = () => {
+      const r = document.createRange(); r.selectNodeContents(pages);
+      const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      copyStatus.textContent = 'Tekst geselecteerd. Kopieer met Ctrl+C of Cmd+C.';
+    };
+    try {
+      navigator.clipboard.writeText(text).then(() => { copyStatus.textContent = 'Gekopieerd.'; }, fallback);
+    } catch (e) { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
