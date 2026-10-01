@@ -4,3 +4,19 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# Lettertypen veranderen nooit van inhoud: een jaar cachen.
+# Vervang je een lettertype, geef het bestand dan een nieuwe naam.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
