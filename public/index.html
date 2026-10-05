@@ -192,6 +192,13 @@
   .hero h1{ font-size: clamp(40px, 6vw, 68px); margin-top: 14px; }
   .hero h1 em{ font-style: normal; color: var(--accent); }
   .hero .lede{ margin: 20px 0 0; font-size: 18.5px; color: var(--ink-soft); max-width: 44ch; }
+  .promo{
+    display: inline-block; margin: 18px 0 0; padding: 8px 14px; border-radius: 10px;
+    background: var(--accent-tint); color: var(--ink); font-size: 15.5px;
+  }
+  .promo b{ color: var(--accent-deep); }
+  .promo s, .lock-card s{ color: var(--ink-faint); }
+  .lock-card .promo-tag{ margin: 6px 0 0; font-size: 14px; font-weight: 600; color: var(--accent-deep); }
   .hero-actions{ margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
   .checks{ list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 10px 22px; }
   .checks li{ display: flex; align-items: center; gap: 8px; font-size: 14.5px; color: var(--ink-soft); }
@@ -466,7 +473,7 @@
       <a href="#hoe">Hoe het werkt</a>
       <a href="#inhoud">Wat je krijgt</a>
       <a href="#vragen">Vragen</a>
-      <span class="price-chip">€1,99 per LVBF</span>
+      <span class="price-chip" id="price-chip">€1,99 per LVBF</span>
     </div>
   </div>
 </nav>
@@ -486,6 +493,7 @@
       <span class="eyebrow">Voor stagiairs bewegingsonderwijs</span>
       <h1>Jouw les. Direct als <em>LVBF</em> op papier.</h1>
       <p class="lede">Beschrijf in één zin wat je gaat geven. Je krijgt een uitgewerkte lesvoorbereiding in het vertrouwde LVBF-format: beginsituatie, doelen, warming-up en lesopbouw.</p>
+      <p class="promo" id="promo-hero" hidden>Actie: je eerste LVBF kost <b class="js-promo">€0,50</b> in plaats van <s class="js-normal">€1,99</s>.</p>
       <div class="hero-actions">
         <a class="btn btn-primary btn-lg" href="#maken">Maak je LVBF</a>
         <a class="btn btn-ghost btn-lg" href="#hoe">Hoe het werkt</a>
@@ -529,7 +537,7 @@
     <ol class="steps">
       <li><span class="n">Stap 1</span><h3>Beschrijf je les</h3><p>Wat ga je geven, aan welke groep en hoe lang. Een paar woorden is genoeg.</p></li>
       <li><span class="n">Stap 2</span><h3>Bekijk het voorbeeld</h3><p>Je LVBF verschijnt direct in het bekende format. Je ziet de opbouw en kunt beoordelen of het past.</p></li>
-      <li><span class="n">Stap 3</span><h3>Ontgrendel en gebruik</h3><p>Betaal €1,99 via iDEAL en de volledige tekst komt vrij. Kopieer hem naar je eigen formulier en pas aan waar nodig.</p></li>
+      <li><span class="n">Stap 3</span><h3>Ontgrendel en gebruik</h3><p>Betaal <span class="js-normal">€1,99</span> via iDEAL<span class="js-promo-only" hidden> (je eerste LVBF maar <span class="js-promo">€0,50</span>)</span> en de volledige tekst komt vrij. Kopieer hem naar je eigen formulier en pas aan waar nodig.</p></li>
     </ol>
   </div>
 </section>
@@ -646,7 +654,8 @@
           </div>
           <div class="lock">
             <div class="lock-card">
-              <div class="price">€1,99</div>
+              <div class="price" id="lock-price">€1,99</div>
+              <p class="promo-tag" id="lock-promo" hidden>Actieprijs voor je eerste LVBF, normaal <s class="js-normal">€1,99</s></p>
               <p class="price-sub">Eenmalig. Volledige, leesbare tekst om te kopiëren.</p>
               <button class="btn btn-primary btn-lg" id="buy-btn" type="button">Betaal met iDEAL</button>
               <p class="small">Past het niet? Pas je beschrijving aan en maak gratis een nieuw voorbeeld.</p>
@@ -708,7 +717,7 @@
       <details><summary>Voor welke groepen werkt het?<span class="plus">+</span></summary>
         <p>Voor het basisonderwijs (groep 1 tot en met 8) en het voortgezet onderwijs, van brugklas tot bovenbouw.</p></details>
       <details><summary>Hoe betaal ik?<span class="plus">+</span></summary>
-        <p>Via iDEAL, met je eigen bank. Je betaalt €1,99 per LVBF, zonder abonnement.</p></details>
+        <p>Via iDEAL, met je eigen bank. Je betaalt <span class="js-normal">€1,99</span> per LVBF, zonder abonnement.<span class="js-promo-only" hidden> Tijdens de actie kost je eerste LVBF maar <span class="js-promo">€0,50</span>.</span></p></details>
       <details><summary>Wat gebeurt er met mijn gegevens?<span class="plus">+</span></summary>
         <p>We bewaren je lesgegevens en de gemaakte LVBF alleen om hem aan jou te kunnen leveren. We delen ze met niemand anders.</p></details>
       <details><summary>Staan de arrangementtekeningen erin?<span class="plus">+</span></summary>
@@ -871,11 +880,26 @@
   }
   window.addEventListener('resize', () => { if (!result.hidden) fitPages(); });
 
+  // ---- prijs (actie: eerste LVBF goedkoper) ----
+  const euro = (v) => '€' + String(v).replace('.', ',');
+  function showPrice(p){
+    if (!p || !p.price) return;
+    document.querySelectorAll('.js-normal').forEach(el => el.textContent = euro(p.normal));
+    document.querySelectorAll('.js-promo').forEach(el => el.textContent = euro(p.price));
+    document.querySelectorAll('.js-promo-only').forEach(el => el.hidden = !p.promo);
+    $('promo-hero').hidden = !p.promo;
+    $('price-chip').textContent = p.promo ? 'Eerste LVBF ' + euro(p.price) : euro(p.normal) + ' per LVBF';
+    $('lock-price').textContent = euro(p.price);
+    $('lock-promo').hidden = !p.promo;
+  }
+  fetch('/api/prijs').then(r => r.json()).then(showPrice).catch(() => {});
+
   // ---- state ----
   let current = null; // { id, meta, data?, preview? }
 
   function showResult(res, unlocked){
     current = res;
+    showPrice(res);
     pages.innerHTML = renderDoc(res.meta, unlocked ? res.data : res.preview);
     const titel = (unlocked ? res.data : res.preview).les_titel;
     $('result-title').textContent = titel || 'Je LVBF';
