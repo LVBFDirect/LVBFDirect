@@ -63,6 +63,8 @@ Optioneel:
 |---|---|---|
 | `CLAUDE_MODEL` | `claude-sonnet-5` | Welk Claude-model de LVBF schrijft |
 | `PRICE_EUR` | `1.99` | De prijs per LVBF |
+| `PROMO_PRICE_EUR` | `0.50` | Actieprijs voor iemands eerste LVBF. Zet op `uit` om de actie te stoppen |
+| `PROMO_PER_IP` | `3` | Hoe vaak één internetaansluiting (bv. een schoolnetwerk) de actie per 30 dagen mag gebruiken |
 | `RATE_LIMIT_PER_HOUR` | `10` | Max. aantal voorbeelden per bezoeker per uur (beschermt je Claude-tegoed) |
 
 Daarna: **Deploys → Trigger deploy → Deploy project**, zodat de sleutels actief worden.

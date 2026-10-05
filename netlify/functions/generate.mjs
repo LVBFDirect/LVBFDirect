@@ -3,6 +3,7 @@
 // Het antwoord wordt gestreamd (met spaties als "hartslag"), zodat de functie
 // tot 60 seconden mag draaien in plaats van de normale 10 seconden.
 import { json, cleanMeta, allowRequest, callClaude, scramble, store } from "../../lib/shared.mjs";
+import { klant, buyerKeys, priceFor } from "../../lib/promo.mjs";
 
 export default async (req, context) => {
   if (req.method !== "POST") return json({ error: "Alleen POST is toegestaan." }, 405);
@@ -16,6 +17,9 @@ export default async (req, context) => {
     return json({ error: "Je hebt het maximum aantal voorbeelden voor dit uur bereikt. Probeer het later opnieuw." }, 429);
   }
 
+  const k = klant(req);
+  const keys = await buyerKeys(context.ip, k.id);
+
   const enc = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
@@ -25,7 +29,8 @@ export default async (req, context) => {
         const data = await callClaude(meta);
         const id = crypto.randomUUID();
         await store().setJSON("lvbf/" + id, { meta, data, created: new Date().toISOString(), paid: false });
-        out = { id, meta, preview: scramble(data) };
+        const prijs = await priceFor(keys, id).catch((err) => { console.error("generate prijs:", err); return {}; });
+        out = { id, meta, preview: scramble(data), ...prijs };
       } catch (err) {
         console.error("generate:", err);
         out = { error: "Het maken is niet gelukt. Probeer het nog een keer." };
@@ -36,9 +41,9 @@ export default async (req, context) => {
     },
   });
 
-  return new Response(stream, {
-    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
-  });
+  const headers = { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" };
+  if (k.setCookie) headers["set-cookie"] = k.setCookie;
+  return new Response(stream, { headers });
 };
 
 export const config = { path: "/api/generate" };
