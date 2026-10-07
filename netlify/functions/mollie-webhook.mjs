@@ -1,6 +1,7 @@
 // POST /api/mollie-webhook — Mollie meldt hier dat een betaling is veranderd.
 // We vertrouwen de melding niet blind: we halen de status altijd zelf op bij Mollie.
 import { store, mollie } from "../../lib/shared.mjs";
+import { settleOrder } from "../../lib/account.mjs";
 
 export default async (req) => {
   if (req.method !== "POST") return new Response("", { status: 405 });
@@ -10,6 +11,10 @@ export default async (req) => {
     if (!paymentId || !/^tr_\w+$/.test(paymentId)) return new Response("", { status: 200 });
 
     const p = await mollie("/payments/" + encodeURIComponent(paymentId));
+    if (p.metadata && p.metadata.kind === "credits") {
+      await settleOrder(paymentId, p);
+      return new Response("", { status: 200 });
+    }
     const id = p.metadata && p.metadata.id;
     if (!id) return new Response("", { status: 200 });
 
