@@ -42,7 +42,8 @@
         { "@type": "Question", "name": "Wat als het voorbeeld niet goed past?", "acceptedAnswer": { "@type": "Answer", "text": "Je betaalt pas als je tevreden bent. Maak gerust een nieuw voorbeeld met een specifiekere beschrijving, dat is gratis." } },
         { "@type": "Question", "name": "Voor welke groepen werkt het?", "acceptedAnswer": { "@type": "Answer", "text": "Voor het basisonderwijs (groep 1 tot en met 8) en het voortgezet onderwijs, van brugklas tot bovenbouw." } },
         { "@type": "Question", "name": "Hoe betaal ik?", "acceptedAnswer": { "@type": "Answer", "text": "Via iDEAL, met je eigen bank. Je betaalt €1,99 per LVBF, zonder abonnement." } },
-        { "@type": "Question", "name": "Wat gebeurt er met mijn gegevens?", "acceptedAnswer": { "@type": "Answer", "text": "We bewaren je lesgegevens en de gemaakte LVBF alleen om hem aan jou te kunnen leveren. We delen ze met niemand anders." } },
+        { "@type": "Question", "name": "Wat zijn credits?", "acceptedAnswer": { "@type": "Answer", "text": "Maak je vaker een LVBF, dan koop je voordeliger een bundel credits: 5 voor €8,95, 10 voor €15,95 of 25 voor €34,95. Eén credit is één LVBF. Je logt in met een link die we naar je e-mail sturen, zonder wachtwoord. Credits blijven altijd geldig en in je account vind je al je LVBF's terug." } },
+        { "@type": "Question", "name": "Wat gebeurt er met mijn gegevens?", "acceptedAnswer": { "@type": "Answer", "text": "We bewaren je lesgegevens en de gemaakte LVBF alleen om hem aan jou te kunnen leveren. Heb je een account, dan bewaren we ook je e-mailadres en je saldo. We delen niets met anderen." } },
         { "@type": "Question", "name": "Staan de arrangementtekeningen erin?", "acceptedAnswer": { "@type": "Answer", "text": "Nog niet. De kolom voor arrangementen en organisatie laat ruimte voor je eigen tekening van de zaalopstelling." } }
       ]
     }
@@ -166,7 +167,58 @@
     border: 1px solid var(--rule-strong); border-radius: 999px; padding: 5px 12px; color: var(--ink);
     white-space: nowrap;
   }
+  .nav-account{
+    font-family: var(--body); font-size: 14px; font-weight: 600; cursor: pointer;
+    background: var(--accent); color: var(--on-accent); border: 0; border-radius: 999px; padding: 7px 14px;
+    white-space: nowrap;
+  }
+  .nav-account:hover{ background: var(--accent-deep); }
   @media (max-width: 720px){ .nav-links a{ display: none; } }
+  @media (max-width: 420px){ .price-chip{ display: none; } }
+
+  .visually-hidden{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ---------- account ---------- */
+  .acct{
+    border: 1px solid var(--rule); border-radius: 16px; padding: 0; box-shadow: var(--shadow);
+    background: var(--surface); color: var(--ink); width: min(460px, calc(100vw - 32px)); max-height: calc(100vh - 32px);
+  }
+  .acct::backdrop{ background: rgba(10, 18, 14, .45); }
+  .acct-inner{ padding: 24px; position: relative; }
+  .acct h2{ font-family: var(--display); font-stretch: 78%; font-weight: 800; font-size: 28px; margin: 0 0 6px; line-height: 1.1; }
+  .acct p{ margin: 0 0 14px; color: var(--ink-soft); font-size: 15px; }
+  .acct .x{
+    position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 8px;
+    border: 0; background: transparent; color: var(--ink-soft); font-size: 22px; cursor: pointer;
+  }
+  .acct .x:hover{ background: var(--surface-2); color: var(--ink); }
+  .acct form{ display: flex; flex-direction: column; gap: 10px; }
+  .acct .btn{ width: 100%; }
+  .acct .msg{ font-size: 14px; margin: 10px 0 0; color: var(--ink-soft); min-height: 1em; }
+  .acct .msg.err{ color: #B3261E; }
+  .saldo{ display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    background: var(--surface-2); border-radius: 12px; padding: 14px 16px; margin: 4px 0 18px; }
+  .saldo b{ font-family: var(--display); font-stretch: 78%; font-weight: 800; font-size: 34px; line-height: 1; color: var(--ink); }
+  .saldo span{ font-size: 14px; color: var(--ink-soft); }
+  .acct h3{ font-size: 15px; margin: 0 0 10px; }
+  .bundles{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px; }
+  .bundle{
+    font-family: var(--body); cursor: pointer; text-align: center; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 12px; padding: 12px 6px;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .bundle:hover:not(:disabled){ border-color: var(--accent); background: var(--accent-tint); }
+  .bundle:disabled{ opacity: .55; cursor: not-allowed; }
+  .bundle b{ font-size: 18px; }
+  .bundle .bp{ font-family: var(--mono); font-size: 14px; }
+  .bundle .bu{ font-size: 12px; color: var(--ink-faint); }
+  .my-list{ list-style: none; margin: 0 0 18px; padding: 0; border-top: 1px solid var(--rule); max-height: 220px; overflow: auto; }
+  .my-list li{ border-bottom: 1px solid var(--rule); }
+  .my-list a{ display: flex; justify-content: space-between; gap: 12px; padding: 10px 2px; color: var(--ink); text-decoration: none; font-size: 15px; }
+  .my-list a:hover{ color: var(--accent); }
+  .my-list .d{ font-family: var(--mono); font-size: 12.5px; color: var(--ink-faint); white-space: nowrap; }
+  .acct-foot{ display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px; color: var(--ink-faint); }
+  .acct-foot span{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
   /* ---------- buttons ---------- */
   .btn{
@@ -353,6 +405,12 @@
   .lock-card .price-sub{ font-size: 14px; color: var(--ink-soft); margin: 6px 0 14px; }
   .lock-card .btn{ width: 100%; }
   .lock-card .small{ font-size: 13px; color: var(--ink-faint); margin: 10px 0 0; }
+  .lock-card .alt{ margin-top: 10px; }
+  .lock-card .link-btn{ font-size: 13px; }
+  .link-btn{
+    background: none; border: 0; padding: 0; font: inherit; color: var(--accent); font-weight: 600;
+    text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+  }
   .save-note{ margin: 12px 0 0; font-size: 14px; color: var(--ink-soft); }
   .test-note{
     display: none; margin-top: 14px; text-align: left; font-size: 14px; color: var(--ink-soft);
@@ -467,6 +525,7 @@
       <a href="#inhoud">Wat je krijgt</a>
       <a href="#vragen">Vragen</a>
       <span class="price-chip">€1,99 per LVBF</span>
+      <button class="nav-account" id="acct-btn" type="button" aria-haspopup="dialog">Inloggen</button>
     </div>
   </div>
 </nav>
@@ -646,9 +705,11 @@
           </div>
           <div class="lock">
             <div class="lock-card">
-              <div class="price">€1,99</div>
-              <p class="price-sub">Eenmalig. Volledige, leesbare tekst om te kopiëren.</p>
+              <div class="price" id="lock-price">€1,99</div>
+              <p class="price-sub" id="lock-sub">Eenmalig. Volledige, leesbare tekst om te kopiëren.</p>
+              <button class="btn btn-primary btn-lg" id="credit-btn" type="button" hidden>Gebruik 1 credit</button>
               <button class="btn btn-primary btn-lg" id="buy-btn" type="button">Betaal met iDEAL</button>
+              <p class="small" id="credit-hint">Vaker nodig? <button class="link-btn" type="button" data-open-account>Koop credits</button> vanaf €1,40 per LVBF.</p>
               <p class="small">Past het niet? Pas je beschrijving aan en maak gratis een nieuw voorbeeld.</p>
               <p class="small" id="pay-status" role="status" aria-live="polite"></p>
             </div>
@@ -709,13 +770,42 @@
         <p>Voor het basisonderwijs (groep 1 tot en met 8) en het voortgezet onderwijs, van brugklas tot bovenbouw.</p></details>
       <details><summary>Hoe betaal ik?<span class="plus">+</span></summary>
         <p>Via iDEAL, met je eigen bank. Je betaalt €1,99 per LVBF, zonder abonnement.</p></details>
+      <details><summary>Wat zijn credits?<span class="plus">+</span></summary>
+        <p>Maak je vaker een LVBF, dan koop je voordeliger een bundel credits: 5 voor €8,95, 10 voor €15,95 of 25 voor €34,95. Eén credit is één LVBF. Je logt in met een link die we naar je e-mail sturen, zonder wachtwoord. Credits blijven altijd geldig en in je account vind je al je LVBF's terug.</p></details>
       <details><summary>Wat gebeurt er met mijn gegevens?<span class="plus">+</span></summary>
-        <p>We bewaren je lesgegevens en de gemaakte LVBF alleen om hem aan jou te kunnen leveren. We delen ze met niemand anders.</p></details>
+        <p>We bewaren je lesgegevens en de gemaakte LVBF alleen om hem aan jou te kunnen leveren. Heb je een account, dan bewaren we ook je e-mailadres en je saldo. We delen niets met anderen.</p></details>
       <details><summary>Staan de arrangementtekeningen erin?<span class="plus">+</span></summary>
         <p>Nog niet. De kolom voor arrangementen en organisatie laat ruimte voor je eigen tekening van de zaalopstelling.</p></details>
     </div>
   </div>
 </section>
+
+<dialog class="acct" id="acct" aria-labelledby="acct-title">
+  <div class="acct-inner">
+    <button class="x" type="button" id="acct-close" aria-label="Sluiten">×</button>
+    <div id="acct-out">
+      <h2 id="acct-title">Inloggen</h2>
+      <p>Met een account koop je credits voordelig in een bundel en vind je je LVBF's altijd terug. Je hebt geen wachtwoord nodig: we mailen je een inloglink.</p>
+      <form id="login-form" novalidate>
+        <label class="visually-hidden" for="login-email">E-mailadres</label>
+        <input type="email" id="login-email" name="email" autocomplete="email" inputmode="email" placeholder="jouw@email.nl" required>
+        <button class="btn btn-primary" type="submit" id="login-btn">Stuur inloglink</button>
+      </form>
+      <p class="msg" id="login-msg" role="status" aria-live="polite"></p>
+    </div>
+    <div id="acct-in" hidden>
+      <h2>Je account</h2>
+      <div class="saldo"><span>Je saldo</span><b id="acct-credits">0</b></div>
+      <h3>Credits kopen</h3>
+      <p>Eén credit is één LVBF. Je betaalt met iDEAL en je credits blijven altijd geldig.</p>
+      <div class="bundles" id="bundles"></div>
+      <p class="msg" id="buy-msg" role="status" aria-live="polite"></p>
+      <h3>Mijn LVBF's</h3>
+      <ul class="my-list" id="my-list"></ul>
+      <div class="acct-foot"><span id="acct-email"></span><button class="link-btn" type="button" id="logout-btn">Uitloggen</button></div>
+    </div>
+  </div>
+</dialog>
 
 <footer>
   <div class="wrap">
@@ -884,6 +974,7 @@
     badge.classList.toggle('open', unlocked);
     copyBtn.hidden = !unlocked; copyStatus.textContent = '';
     saveNote.hidden = !unlocked;
+    renderPaywall();
     result.hidden = false;
     fitPages();
     desk.scrollTop = 0;
@@ -1001,6 +1092,154 @@
     result.scrollIntoView({ block: 'start' });
     checkResult(startId);
   }
+
+  // ---- account en credits ----
+  const acctDlg = $('acct'), acctBtn = $('acct-btn'), creditBtn = $('credit-btn'), creditHint = $('credit-hint');
+  let account = { loggedIn: false, bundles: [] };
+  const euro = (v) => '€' + String(v).replace('.', ',');
+
+  function renderPaywall(){
+    const n = account.loggedIn ? account.credits : 0;
+    creditBtn.hidden = !(n > 0);
+    $('lock-price').textContent = n > 0 ? '1 credit' : '€1,99';
+    $('lock-sub').textContent = n > 0
+      ? 'Je hebt er ' + n + '. Volledige, leesbare tekst om te kopiëren.'
+      : 'Eenmalig. Volledige, leesbare tekst om te kopiëren.';
+    buyBtn.classList.toggle('btn-primary', !(n > 0));
+    buyBtn.classList.toggle('btn-ghost', n > 0);
+    buyBtn.classList.toggle('alt', n > 0);
+    buyBtn.textContent = n > 0 ? 'Of betaal €1,99 met iDEAL' : 'Betaal met iDEAL';
+    creditHint.hidden = n > 0;
+  }
+
+  function renderAccount(){
+    acctBtn.textContent = account.loggedIn ? 'Account · ' + account.credits + (account.credits === 1 ? ' credit' : ' credits') : 'Inloggen';
+    $('acct-out').hidden = account.loggedIn;
+    $('acct-in').hidden = !account.loggedIn;
+    $('acct-title').textContent = 'Inloggen';
+    if (account.loggedIn) {
+      $('acct-credits').textContent = account.credits;
+      $('acct-email').textContent = account.email;
+      $('bundles').innerHTML = (account.bundles || []).map(b =>
+        '<button class="bundle" type="button" data-bundle="' + esc(b.key) + '"><b>' + esc(b.credits) + ' credits</b>' +
+        '<span class="bp">' + esc(euro(b.price)) + '</span>' +
+        '<span class="bu">' + esc(euro((b.price / b.credits).toFixed(2))) + ' per LVBF</span></button>').join('');
+      const list = account.lvbfs || [];
+      $('my-list').innerHTML = list.length
+        ? list.map(x => '<li><a href="/?id=' + encodeURIComponent(x.id) + '#maken"><span>' + esc(x.titel) + '</span><span class="d">' + esc(fmtDate(String(x.created).slice(0, 10))) + '</span></a></li>').join('')
+        : '<li><p style="padding:10px 2px;margin:0">Nog geen LVBF\'s. Ontgrendelde LVBF\'s verschijnen hier.</p></li>';
+      if (account.pending) $('buy-msg').textContent = 'Je betaling wordt nog verwerkt. Je credits verschijnen zodra hij binnen is.';
+    }
+    renderPaywall();
+  }
+
+  async function loadAccount(){
+    try {
+      const r = await fetch('/api/account', { credentials: 'same-origin' });
+      account = await r.json();
+    } catch (e) { account = { loggedIn: false, bundles: [] }; }
+    renderAccount();
+    return account;
+  }
+
+  function openAccount(){
+    $('login-msg').textContent = ''; $('login-msg').classList.remove('err');
+    if (typeof acctDlg.showModal === 'function') acctDlg.showModal(); else acctDlg.setAttribute('open', '');
+    if (!account.loggedIn) $('login-email').focus();
+  }
+  acctBtn.addEventListener('click', openAccount);
+  document.querySelectorAll('[data-open-account]').forEach(b => b.addEventListener('click', openAccount));
+  $('acct-close').addEventListener('click', () => acctDlg.close());
+  acctDlg.addEventListener('click', (e) => { if (e.target === acctDlg) acctDlg.close(); });
+
+  $('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('login-msg'), btn = $('login-btn'), email = $('login-email').value.trim();
+    msg.classList.remove('err');
+    if (!/^\S+@\S+\.\S+$/.test(email)) { msg.textContent = 'Vul een geldig e-mailadres in.'; msg.classList.add('err'); return; }
+    btn.disabled = true; msg.textContent = 'Versturen…';
+    try {
+      const r = await fetch('/api/login', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email, next: current && current.id })
+      });
+      const res = await r.json();
+      if (res.ok) msg.textContent = 'Check je mail. We hebben een inloglink gestuurd naar ' + email + '. Kijk ook bij spam.';
+      else { msg.textContent = res.error || 'Versturen is niet gelukt.'; msg.classList.add('err'); }
+    } catch (err) { msg.textContent = 'Geen verbinding. Probeer het opnieuw.'; msg.classList.add('err'); }
+    btn.disabled = false;
+  });
+
+  $('bundles').addEventListener('click', async (e) => {
+    const b = e.target.closest('[data-bundle]');
+    if (!b) return;
+    const msg = $('buy-msg');
+    document.querySelectorAll('.bundle').forEach(x => x.disabled = true);
+    msg.textContent = 'Je gaat naar iDEAL…';
+    try {
+      const r = await fetch('/api/credits', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ bundle: b.dataset.bundle, id: current && !current.data ? current.id : undefined })
+      });
+      const res = await r.json();
+      if (res.checkoutUrl) { location.href = res.checkoutUrl; return; }
+      msg.textContent = res.error || 'Betalen starten is niet gelukt. Probeer het zo nog eens.';
+    } catch (err) { msg.textContent = 'Geen verbinding. Probeer het opnieuw.'; }
+    document.querySelectorAll('.bundle').forEach(x => x.disabled = false);
+  });
+
+  $('logout-btn').addEventListener('click', async () => {
+    try { await fetch('/api/uitloggen', { method: 'POST' }); } catch (e) {}
+    account = { loggedIn: false, bundles: account.bundles };
+    renderAccount();
+    acctDlg.close();
+  });
+
+  creditBtn.addEventListener('click', async () => {
+    if (!current) return;
+    creditBtn.disabled = true; buyBtn.disabled = true;
+    payStatus.textContent = 'Bezig met ontgrendelen…';
+    try {
+      const r = await fetch('/api/ontgrendel', {
+        method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: current.id })
+      });
+      const res = await r.json();
+      if (res.paid) {
+        payStatus.textContent = '';
+        if (typeof res.credits === 'number') account.credits = res.credits;
+        showResult(res, true);
+        loadAccount();
+      } else payStatus.textContent = res.error || 'Ontgrendelen is niet gelukt. Probeer het opnieuw.';
+    } catch (e) { payStatus.textContent = 'Geen verbinding. Probeer het opnieuw.'; }
+    creditBtn.disabled = false; buyBtn.disabled = false;
+  });
+
+  // Terug van de inloglink of van het kopen van credits.
+  (async () => {
+    const q = new URLSearchParams(location.search);
+    const login = q.get('login'), tegoed = q.get('tegoed');
+    if (login || tegoed) {
+      q.delete('login'); q.delete('tegoed');
+      const rest = q.toString();
+      history.replaceState(null, '', location.pathname + (rest ? '?' + rest : '') + location.hash);
+    }
+    await loadAccount();
+    if (login === 'verlopen' || login === 'fout') {
+      openAccount();
+      $('login-msg').textContent = login === 'verlopen'
+        ? 'Deze inloglink is verlopen of al te oud. Vraag hieronder een nieuwe aan.'
+        : 'Inloggen is niet gelukt. Probeer het opnieuw.';
+      $('login-msg').classList.add('err');
+    } else if (tegoed && !q.get('id')) {
+      openAccount();
+    }
+    // Credits die net gekocht zijn, kunnen een paar seconden op zich laten wachten.
+    for (let i = 0; tegoed && account.loggedIn && account.pending && i < 8; i++) {
+      await wait(2000);
+      await loadAccount();
+    }
+    if (tegoed && account.loggedIn && !account.pending) $('buy-msg').textContent = '';
+  })();
 
   // ---- copy ----
   copyBtn.addEventListener('click', () => {

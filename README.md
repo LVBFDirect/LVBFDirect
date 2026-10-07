@@ -9,7 +9,12 @@ Deze map is de complete website plus een klein serverdeel:
 | `netlify/functions/pay.mjs` | Maakt een iDEAL-betaling aan bij Mollie |
 | `netlify/functions/mollie-webhook.mjs` | Mollie meldt hier dat er betaald is |
 | `netlify/functions/result.mjs` | Geeft na betaling de volledige LVBF vrij |
+| `netlify/functions/login.mjs`, `inloggen.mjs`, `uitloggen.mjs` | Inloggen met een link per e-mail (geen wachtwoorden) |
+| `netlify/functions/account.mjs` | Saldo en "Mijn LVBF's" van het ingelogde account |
+| `netlify/functions/credits.mjs` | Start een iDEAL-betaling voor een creditbundel |
+| `netlify/functions/ontgrendel.mjs` | Ontgrendelt een LVBF met één credit |
 | `lib/shared.mjs` | Gedeelde code (opdracht aan Claude, opslag, Mollie) |
+| `lib/account.mjs` | Accounts, credits, bundels en de inlogmail |
 
 De volledige tekst van een LVBF blijft op de server tot er betaald is. In het voorbeeld zijn alle zinnen vervangen door willekeurige letters, dus ook met trucjes in de browser kan niemand hem gratis lezen.
 
@@ -56,6 +61,8 @@ In Netlify: **Project configuration → Environment variables → Add a variable
 | `ANTHROPIC_API_KEY` | je sleutel uit stap 3 |
 | `MOLLIE_API_KEY` | je Mollie-sleutel uit stap 4 |
 | `PUBLIC_URL` | `https://lvbfdirect.nl` (pas invullen na stap 6; tot die tijd je `.netlify.app`-adres) |
+| `SESSION_SECRET` | een lange willekeurige reeks van minstens 32 tekens (zie stap 5b) |
+| `RESEND_API_KEY` | je Resend-sleutel uit stap 5b |
 
 Optioneel:
 
@@ -64,8 +71,22 @@ Optioneel:
 | `CLAUDE_MODEL` | `claude-sonnet-5` | Welk Claude-model de LVBF schrijft |
 | `PRICE_EUR` | `1.99` | De prijs per LVBF |
 | `RATE_LIMIT_PER_HOUR` | `10` | Max. aantal voorbeelden per bezoeker per uur (beschermt je Claude-tegoed) |
+| `MAIL_FROM` | `LVBF Direct <inloggen@lvbfdirect.nl>` | Afzender van de inlogmail |
 
 Daarna: **Deploys → Trigger deploy → Deploy project**, zodat de sleutels actief worden.
+
+## Stap 5b — Accounts en credits (inlogmail via Resend)
+
+Bezoekers kunnen een account maken om credits in een bundel te kopen (5 voor €8,95, 10 voor €15,95, 25 voor €34,95). Ze loggen in met een link die per e-mail komt. Los betalen zonder account blijft gewoon werken.
+
+1. Maak een gratis account op resend.com (gratis tot 3.000 mails per maand).
+2. Ga naar **Domains → Add domain** en vul `lvbfdirect.nl` in.
+3. Resend toont een paar DNS-records (meestal een TXT-record voor SPF en een TXT-record voor DKIM). Zet die bij TransIP onder **DNS**, net als in stap 6. Je bestaande MX-records blijven staan.
+4. Wacht tot Resend het domein op **Verified** zet.
+5. Ga naar **API Keys → Create API key** (rechten: *Sending access*) en zet de sleutel in Netlify als `RESEND_API_KEY`.
+6. Zet in Netlify ook `SESSION_SECRET`: een lange willekeurige reeks. Maak er een op bijvoorbeeld een wachtwoordgenerator (minstens 32 tekens). Verander je hem later, dan worden alle bezoekers uitgelogd; hun credits blijven bewaard.
+
+De bundels en prijzen staan bovenin `lib/account.mjs`. Elke bij- of afschrijving wordt ook apart bewaard (`ledger/` in Netlify Blobs), zodat je achteraf kunt nagaan wat er met een saldo is gebeurd.
 
 ## Stap 6 — lvbfdirect.nl koppelen (TransIP)
 
@@ -92,7 +113,7 @@ Werkt alles, dan wissel je in stap 5 naar de live-sleutel van Mollie.
 
 ## Voordat je live gaat
 
-- Zet een **privacyverklaring** en **algemene voorwaarden** op de site. Je bewaart namen, scholen en lesbeschrijvingen, dus dat is nodig onder de AVG.
+- Zet een **privacyverklaring** en **algemene voorwaarden** op de site. Je bewaart namen, scholen, lesbeschrijvingen en (bij een account) e-mailadressen, dus dat is nodig onder de AVG.
 - Check of je je bij de **KvK** moet inschrijven zodra je gaat verkopen.
 - Houd in de gaten wat een LVBF je kost aan Claude-tegoed (console.anthropic.com → Usage), zodat de €1,99 ruim genoeg blijft.
 
@@ -100,4 +121,5 @@ Werkt alles, dan wissel je in stap 5 naar de live-sleutel van Mollie.
 
 - **"Het maken is niet gelukt"**: kijk in Netlify bij **Logs → Functions → generate**. Meestal ontbreekt `ANTHROPIC_API_KEY` of is het tegoed op.
 - **Betalen start niet**: kijk bij de logs van `pay`. Meestal ontbreekt `MOLLIE_API_KEY` of `PUBLIC_URL`.
+- **Inlogmail komt niet aan**: kijk bij de logs van `login`. Meestal ontbreekt `RESEND_API_KEY`, of is het domein bij Resend nog niet geverifieerd.
 - **Na betalen blijft hij "gecontroleerd"**: vernieuw de pagina. De site vraagt de status dan opnieuw aan Mollie.
