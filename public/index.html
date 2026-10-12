@@ -201,6 +201,11 @@
   .saldo b{ font-family: var(--display); font-stretch: 78%; font-weight: 800; font-size: 34px; line-height: 1; color: var(--ink); }
   .saldo span{ font-size: 14px; color: var(--ink-soft); }
   .acct h3{ font-size: 15px; margin: 0 0 10px; }
+  .code-form{ display: flex; flex-direction: row !important; gap: 8px; margin-bottom: 4px; }
+  .code-form input{ flex: 1; min-width: 0; text-transform: uppercase; }
+  .acct .code-form .btn{ width: auto; }
+  #code-msg{ margin: 0 0 18px; }
+  #code-msg.ok{ color: var(--accent-deep); }
   .bundles{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px; }
   .bundle{
     font-family: var(--body); cursor: pointer; text-align: center; color: var(--ink);
@@ -709,7 +714,7 @@
               <p class="price-sub" id="lock-sub">Eenmalig. Volledige, leesbare tekst om te kopiëren.</p>
               <button class="btn btn-primary btn-lg" id="credit-btn" type="button" hidden>Gebruik 1 credit</button>
               <button class="btn btn-primary btn-lg" id="buy-btn" type="button">Betaal met iDEAL</button>
-              <p class="small" id="credit-hint">Vaker nodig? <button class="link-btn" type="button" data-open-account>Koop credits</button> vanaf €1,40 per LVBF.</p>
+              <p class="small" id="credit-hint">Vaker nodig? <button class="link-btn" type="button" data-open-account>Koop credits</button> vanaf €1,40 per LVBF. Heb je een code? <button class="link-btn" type="button" data-open-account>Vul hem in</button>.</p>
               <p class="small">Past het niet? Pas je beschrijving aan en maak gratis een nieuw voorbeeld.</p>
               <p class="small" id="pay-status" role="status" aria-live="polite"></p>
             </div>
@@ -792,10 +797,18 @@
         <button class="btn btn-primary" type="submit" id="login-btn">Stuur inloglink</button>
       </form>
       <p class="msg" id="login-msg" role="status" aria-live="polite"></p>
+      <p id="code-out-hint">Heb je een code, bijvoorbeeld van onze sticker? Log in, dan vul je hem in bij je account.</p>
     </div>
     <div id="acct-in" hidden>
       <h2>Je account</h2>
       <div class="saldo"><span>Je saldo</span><b id="acct-credits">0</b></div>
+      <h3>Heb je een code?</h3>
+      <form class="code-form" id="code-form" novalidate>
+        <label class="visually-hidden" for="code-input">Code</label>
+        <input type="text" id="code-input" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="32" placeholder="Je code">
+        <button class="btn btn-primary" type="submit" id="code-btn">Verzilver</button>
+      </form>
+      <p class="msg" id="code-msg" role="status" aria-live="polite"></p>
       <h3>Credits kopen</h3>
       <p>Eén credit is één LVBF. Je betaalt met iDEAL en je credits blijven altijd geldig.</p>
       <div class="bundles" id="bundles"></div>
@@ -1188,6 +1201,35 @@
     document.querySelectorAll('.bundle').forEach(x => x.disabled = false);
   });
 
+  // Actiecode: één keer per account een gratis credit. Een code uit de link (?code=) onthouden we tot na het inloggen.
+  const keepCode = (c) => { try { c ? localStorage.setItem('lvbf_code', c) : localStorage.removeItem('lvbf_code'); } catch (e) {} };
+  const keptCode = () => { try { return localStorage.getItem('lvbf_code') || ''; } catch (e) { return ''; } };
+  $('code-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('code-msg'), btn = $('code-btn'), code = $('code-input').value.trim();
+    msg.classList.remove('err', 'ok');
+    if (!code) { msg.textContent = 'Vul je code in.'; msg.classList.add('err'); return; }
+    btn.disabled = true; msg.textContent = 'Controleren…';
+    try {
+      const r = await fetch('/api/code', {
+        method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code })
+      });
+      const res = await r.json();
+      if (res.ok) {
+        keepCode('');
+        $('code-input').value = '';
+        account.credits = res.credits;
+        renderAccount();
+        msg.textContent = res.added === 1 ? 'Gelukt! Je hebt 1 gratis LVBF erbij.' : 'Gelukt! Je hebt ' + res.added + ' gratis LVBF\'s erbij.';
+        msg.classList.add('ok');
+      } else {
+        if (r.status === 400) keepCode('');
+        msg.textContent = res.error || 'Code verzilveren is niet gelukt.'; msg.classList.add('err');
+      }
+    } catch (err) { msg.textContent = 'Geen verbinding. Probeer het opnieuw.'; msg.classList.add('err'); }
+    btn.disabled = false;
+  });
+
   $('logout-btn').addEventListener('click', async () => {
     try { await fetch('/api/uitloggen', { method: 'POST' }); } catch (e) {}
     account = { loggedIn: false, bundles: account.bundles };
@@ -1217,9 +1259,10 @@
   // Terug van de inloglink of van het kopen van credits.
   (async () => {
     const q = new URLSearchParams(location.search);
-    const login = q.get('login'), tegoed = q.get('tegoed');
-    if (login || tegoed) {
-      q.delete('login'); q.delete('tegoed');
+    const login = q.get('login'), tegoed = q.get('tegoed'), codeParam = q.get('code');
+    if (codeParam) keepCode(codeParam.trim().toUpperCase().slice(0, 32));
+    if (login || tegoed || codeParam) {
+      q.delete('login'); q.delete('tegoed'); q.delete('code');
       const rest = q.toString();
       history.replaceState(null, '', location.pathname + (rest ? '?' + rest : '') + location.hash);
     }
@@ -1232,6 +1275,10 @@
       $('login-msg').classList.add('err');
     } else if (tegoed && !q.get('id')) {
       openAccount();
+    }
+    if (keptCode()) {
+      $('code-input').value = keptCode();
+      if (account.loggedIn || codeParam) openAccount();
     }
     // Credits die net gekocht zijn, kunnen een paar seconden op zich laten wachten.
     for (let i = 0; tegoed && account.loggedIn && account.pending && i < 8; i++) {
