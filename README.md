@@ -12,6 +12,7 @@ Deze map is de complete website plus een klein serverdeel:
 | `netlify/functions/login.mjs`, `inloggen.mjs`, `uitloggen.mjs` | Inloggen met een link per e-mail (geen wachtwoorden) |
 | `netlify/functions/account.mjs` | Saldo en "Mijn LVBF's" van het ingelogde account |
 | `netlify/functions/credits.mjs` | Start een iDEAL-betaling voor een creditbundel |
+| `netlify/functions/code.mjs` | Verzilvert een actiecode (1x per account) |
 | `netlify/functions/ontgrendel.mjs` | Ontgrendelt een LVBF met één credit |
 | `lib/shared.mjs` | Gedeelde code (opdracht aan Claude, opslag, Mollie) |
 | `lib/account.mjs` | Accounts, credits, bundels en de inlogmail |
@@ -87,6 +88,8 @@ Bezoekers kunnen een account maken om credits in een bundel te kopen (5 voor €
 6. Zet in Netlify ook `SESSION_SECRET`: een lange willekeurige reeks. Maak er een op bijvoorbeeld een wachtwoordgenerator (minstens 32 tekens). Verander je hem later, dan worden alle bezoekers uitgelogd; hun credits blijven bewaard.
 
 De bundels en prijzen staan bovenin `lib/account.mjs`. Elke bij- of afschrijving wordt ook apart bewaard (`ledger/` in Netlify Blobs), zodat je achteraf kunt nagaan wat er met een saldo is gebeurd.
+
+Actiecodes staan ook in `lib/account.mjs` (`CODES`). Elke code werkt één keer per account; de code `JUNGLE` van de QR-sticker geeft 1 gratis LVBF. Een link als `lvbfdirect.nl/?code=JUNGLE` vult de code alvast in.
 
 ## Stap 6 — lvbfdirect.nl koppelen (TransIP)
 
