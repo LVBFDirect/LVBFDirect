@@ -1178,7 +1178,7 @@
       });
       const res = await r.json();
       if (res.ok) msg.textContent = 'Check je mail. We hebben een inloglink gestuurd naar ' + email + '. Kijk ook bij spam.';
-      else { msg.textContent = res.error || 'Versturen is niet gelukt.'; msg.classList.add('err'); }
+      else { msg.textContent = (res.error || 'Versturen is niet gelukt.') + (res.detail ? ' (' + res.detail + ')' : ''); msg.classList.add('err'); }
     } catch (err) { msg.textContent = 'Geen verbinding. Probeer het opnieuw.'; msg.classList.add('err'); }
     btn.disabled = false;
   });

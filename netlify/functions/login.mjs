@@ -21,9 +21,23 @@ export default async (req, context) => {
     await sendLoginMail(email, token);
   } catch (err) {
     console.error("login:", err);
-    return json({ error: "De inlogmail kon niet worden verstuurd. Probeer het zo nog eens." }, 502);
+    return json({ error: "De inlogmail kon niet worden verstuurd. Probeer het zo nog eens.", detail: reason(err) }, 502);
   }
   return json({ ok: true });
 };
+
+// Korte, veilige uitleg van de fout, zodat je zonder logboek ziet wat er misgaat.
+// Bevat nooit sleutels: alleen onze eigen melding of de foutmelding van Resend.
+function reason(err) {
+  const m = String((err && err.message) || "");
+  if (m.includes("RESEND_API_KEY ontbreekt")) return "RESEND_API_KEY ontbreekt in Netlify.";
+  const r = m.match(/^Resend (\d+): (.*)$/s);
+  if (r) {
+    let msg = r[2];
+    try { msg = JSON.parse(r[2]).message || msg; } catch {}
+    return "Resend " + r[1] + ": " + String(msg).replace(/re_[\w-]+/g, "re_…").slice(0, 200);
+  }
+  return "Opslag of netwerk: " + m.replace(/re_[\w-]+/g, "re_…").slice(0, 120);
+}
 
 export const config = { path: "/api/login" };
