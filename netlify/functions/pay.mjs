@@ -1,5 +1,5 @@
 // POST /api/pay — maakt een iDEAL-betaling aan bij Mollie en geeft de betaallink terug.
-import { json, validId, store, mollie, baseUrl, env } from "../../lib/shared.mjs";
+import { json, validId, store, mollie, baseUrl } from "../../lib/shared.mjs";
 
 export default async (req) => {
   if (req.method !== "POST") return json({ error: "Alleen POST is toegestaan." }, 405);
@@ -19,7 +19,7 @@ export default async (req) => {
     const payment = await mollie("/payments", {
       method: "POST",
       body: {
-        amount: { currency: "EUR", value: env("PRICE_EUR", "1.99") },
+        amount: { currency: "EUR", value: "1.19" },
         description: "LVBF Direct – " + titel,
         redirectUrl: base + "/?id=" + id,
         webhookUrl: base + "/api/mollie-webhook",

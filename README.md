@@ -70,7 +70,6 @@ Optioneel:
 | Naam | Standaard | Waarvoor |
 |---|---|---|
 | `CLAUDE_MODEL` | `claude-sonnet-5` | Welk Claude-model de LVBF schrijft |
-| `PRICE_EUR` | `1.99` | De prijs per LVBF |
 | `RATE_LIMIT_PER_HOUR` | `10` | Max. aantal voorbeelden per bezoeker per uur (beschermt je Claude-tegoed) |
 | `MAIL_FROM` | `LVBF Direct <inloggen@lvbfdirect.nl>` | Afzender van de inlogmail |
 
@@ -118,7 +117,7 @@ Werkt alles, dan wissel je in stap 5 naar de live-sleutel van Mollie.
 
 - Zet een **privacyverklaring** en **algemene voorwaarden** op de site. Je bewaart namen, scholen, lesbeschrijvingen en (bij een account) e-mailadressen, dus dat is nodig onder de AVG.
 - Check of je je bij de **KvK** moet inschrijven zodra je gaat verkopen.
-- Houd in de gaten wat een LVBF je kost aan Claude-tegoed (console.anthropic.com → Usage), zodat de €1,99 ruim genoeg blijft.
+- Houd in de gaten wat een LVBF je kost aan Claude-tegoed (console.anthropic.com → Usage), zodat de €1,19 ruim genoeg blijft.
 
 ## Problemen?
 
