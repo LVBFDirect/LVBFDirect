@@ -70,7 +70,6 @@ Optioneel:
 | Naam | Standaard | Waarvoor |
 |---|---|---|
 | `CLAUDE_MODEL` | `claude-sonnet-5` | Welk Claude-model de LVBF schrijft |
-| `PRICE_EUR` | `1.99` | De prijs per LVBF |
 | `RATE_LIMIT_PER_HOUR` | `10` | Max. aantal voorbeelden per bezoeker per uur (beschermt je Claude-tegoed) |
 | `MAIL_FROM` | `LVBF Direct <inloggen@lvbfdirect.nl>` | Afzender van de inlogmail |
 
@@ -78,7 +77,7 @@ Daarna: **Deploys → Trigger deploy → Deploy project**, zodat de sleutels act
 
 ## Stap 5b — Accounts en credits (inlogmail via Resend)
 
-Bezoekers kunnen een account maken om credits in een bundel te kopen (5 voor €8,95, 10 voor €15,95, 25 voor €34,95). Ze loggen in met een link die per e-mail komt. Los betalen zonder account blijft gewoon werken.
+Bezoekers kunnen een account maken om credits in een bundel te kopen (5 voor €5,49, 10 voor €9,99, 25 voor €22,49). Ze loggen in met een link die per e-mail komt. Los betalen zonder account blijft gewoon werken.
 
 1. Maak een gratis account op resend.com (gratis tot 3.000 mails per maand).
 2. Ga naar **Domains → Add domain** en vul `lvbfdirect.nl` in.
@@ -118,7 +117,7 @@ Werkt alles, dan wissel je in stap 5 naar de live-sleutel van Mollie.
 
 - Zet een **privacyverklaring** en **algemene voorwaarden** op de site. Je bewaart namen, scholen, lesbeschrijvingen en (bij een account) e-mailadressen, dus dat is nodig onder de AVG.
 - Check of je je bij de **KvK** moet inschrijven zodra je gaat verkopen.
-- Houd in de gaten wat een LVBF je kost aan Claude-tegoed (console.anthropic.com → Usage), zodat de €1,99 ruim genoeg blijft.
+- Houd in de gaten wat een LVBF je kost aan Claude-tegoed (console.anthropic.com → Usage), zodat de €1,19 ruim genoeg blijft.
 
 ## Problemen?
 
