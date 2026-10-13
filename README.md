@@ -77,7 +77,7 @@ Daarna: **Deploys → Trigger deploy → Deploy project**, zodat de sleutels act
 
 ## Stap 5b — Accounts en credits (inlogmail via Resend)
 
-Bezoekers kunnen een account maken om credits in een bundel te kopen (5 voor €8,95, 10 voor €15,95, 25 voor €34,95). Ze loggen in met een link die per e-mail komt. Los betalen zonder account blijft gewoon werken.
+Bezoekers kunnen een account maken om credits in een bundel te kopen (5 voor €5,49, 10 voor €9,99, 25 voor €22,49). Ze loggen in met een link die per e-mail komt. Los betalen zonder account blijft gewoon werken.
 
 1. Maak een gratis account op resend.com (gratis tot 3.000 mails per maand).
 2. Ga naar **Domains → Add domain** en vul `lvbfdirect.nl` in.
